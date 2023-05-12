@@ -1,14 +1,19 @@
-//import logo from './logo.svg';
-//import './App.css';
+import Container from "@mui/material/Container";
+
 
 import { Header } from "./components/Header/Header";
+import { Login } from "./pages/Login/Login";
+
 
 function App() {
-  return (
-    <div className="App">
-   <Header/>
-    </div>
-  );
+   return (
+      <>
+         <Header />
+         <Container maxWidth="lg">
+           <Login/>
+         </Container>
+      </>
+   );
 }
 
 export default App;
