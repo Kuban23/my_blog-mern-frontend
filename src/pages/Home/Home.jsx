@@ -36,6 +36,7 @@ export const Home = () => {
                      commentsCount={3}
                      tags={['react', 'fun', 'typescript']}
                      isEditable
+                     
                   />
                ))}
             </Grid>

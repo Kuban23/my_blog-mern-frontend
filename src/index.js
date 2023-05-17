@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "@mui/material";
@@ -12,12 +12,15 @@ import "./index.scss";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-   <React.StrictMode>
-     <CssBaseline />
-     <ThemeProvider theme={theme}>
-       <App />
-     </ThemeProvider>
-   </React.StrictMode>
- );
+   <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+         <BrowserRouter>
+            <App />
+         </BrowserRouter>
+
+      </ThemeProvider>
+   </>
+);
 
 reportWebVitals();
