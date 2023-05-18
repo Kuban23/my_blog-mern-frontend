@@ -9,9 +9,21 @@ import { Link } from 'react-router-dom';
 
 import styles from './Post.module.scss';
 import { UserInfo } from '../../components/UserInfo/UserInfo';
+import { PostSkeleton } from '../../components/Post/Skeleton';
 
-
-export const Post = ({ id, title, createdAt, imageUrl, user, viewsCount, commentsCount, tags }) => {
+export const Post = ({ id, 
+   title, 
+   createdAt, 
+   imageUrl, 
+   user, 
+   viewsCount, 
+   commentsCount, 
+   tags,
+   isLoading,
+}) => {
+      if (isLoading) {
+         return <PostSkeleton />;
+       }
    return (
       <div className={styles.root}>
          <div className={styles.editButtons}>

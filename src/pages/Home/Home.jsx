@@ -2,23 +2,32 @@ import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Post } from '../../components/Post/Post';
 import { TagsBlock } from '../../components/TagsBlock/TagsBlock';
 import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
+import { fetchPosts } from '../../redux/slices/posts';
+
 
 
 export const Home = () => {
 
-React.useEffect(()=>{
-   axios.get('http://localhost:4444/posts');
-},[]);
+   const dispatch = useDispatch();
+   const { posts } = useSelector((state) => state.posts);
+   // console.log(posts)
+
+   React.useEffect(() => {
+      dispatch(fetchPosts())
+   }, []);
+
+   //Переменная для отслеживания статуса загрузки
+   const isPostsLoading = posts.status === 'loading';
+   //console.log(isPostsLoading)
 
    return (
       <>
          <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example"
-
          >
             <Tab
                label={<span style={{ color: 'white' }}>Новые</span>}
@@ -28,24 +37,22 @@ React.useEffect(()=>{
          </Tabs>
          <Grid container spacing={4}>
             <Grid xs={8} item>
-               {[...Array(3)].map(() => (
-                  <Post
-                     id={1}
-                     title="Заголовок поста | Заголовок поста"
-                     imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
-                     user={{
-                        avatarUrl:
-                           'https://catherineasquithgallery.com/uploads/posts/2021-02/1613172335_89-p-zheltii-fon-gubka-bob-105.jpg',
-                        fullName: 'Губка Боб',
-                     }}
-                     createdAt={'15 мая 2023 г.'}
-                     viewsCount={100}
-                     commentsCount={3}
-                     tags={['react', 'fun', 'typescript']}
-                     isEditable
-                     
-                  />
-               ))}
+               {(isPostsLoading ? [...Array(3)] : posts.items).map((obj, index) =>
+                  isPostsLoading ? (
+                     <Post isLoading={true} key={index} />
+                  ) : (
+                     <Post
+                        id={obj._id}
+                        title={obj.title}
+                        imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
+                        user={obj.user}
+                        createdAt={obj.createdAt}
+                        viewsCount={obj.viewsCount}
+                        commentsCount={3}
+                        tags={obj.tags}
+                        isEditable
+                     />
+                  ))}
             </Grid>
             <Grid xs={4} item>
                {/* <div>TagsBlock</div> */}
