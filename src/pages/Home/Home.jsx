@@ -7,23 +7,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../../components/Post/Post';
 import { TagsBlock } from '../../components/TagsBlock/TagsBlock';
 import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
-import { fetchPosts } from '../../redux/slices/posts';
+import { fetchPosts, fetchTags } from '../../redux/slices/posts';
 
 
 
 export const Home = () => {
 
    const dispatch = useDispatch();
-   const { posts } = useSelector((state) => state.posts);
+   const { posts, tags } = useSelector((state) => state.posts);
    // console.log(posts)
 
    React.useEffect(() => {
-      dispatch(fetchPosts())
+      dispatch(fetchPosts());
+      dispatch(fetchTags());
    }, []);
 
    //Переменная для отслеживания статуса загрузки
    const isPostsLoading = posts.status === 'loading';
-   //console.log(isPostsLoading)
+   const isPTagsLoading = tags.status === 'loading';
 
    return (
       <>
@@ -44,7 +45,8 @@ export const Home = () => {
                      <Post
                         id={obj._id}
                         title={obj.title}
-                        imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
+                        imageUrl={obj.imageUrl}
+                        // imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
                         user={obj.user}
                         createdAt={obj.createdAt}
                         viewsCount={obj.viewsCount}
@@ -56,7 +58,7 @@ export const Home = () => {
             </Grid>
             <Grid xs={4} item>
                {/* <div>TagsBlock</div> */}
-               <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} />
+               <TagsBlock items={tags.items} isLoading={isPTagsLoading} />
                {/* <div>CommentsBlock</div> */}
                <CommentsBlock
                   items={[
