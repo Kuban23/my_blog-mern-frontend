@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,19 +10,21 @@ import styles from './Post.module.scss';
 import { UserInfo } from '../../components/UserInfo/UserInfo';
 import { PostSkeleton } from '../../components/Post/Skeleton';
 
-export const Post = ({ id, 
-   title, 
-   createdAt, 
-   imageUrl, 
-   user, 
-   viewsCount, 
-   commentsCount, 
+export const Post = ({
+   id,
+   title,
+   createdAt,
+   imageUrl,
+   user,
+   viewsCount,
+   commentsCount,
    tags,
    isLoading,
+   children,
 }) => {
-      if (isLoading) {
-         return <PostSkeleton />;
-       }
+   if (isLoading) {
+      return <PostSkeleton />;
+   }
    return (
       <div className={styles.root}>
          <div className={styles.editButtons}>
@@ -53,7 +54,7 @@ export const Post = ({ id,
                   ))}
                </ul>
                <div className={styles.content}>
-
+                  {children}
                </div>
                <ul className={styles.postDetails}>
                   <li>

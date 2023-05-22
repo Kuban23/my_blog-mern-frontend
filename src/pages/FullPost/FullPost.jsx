@@ -3,30 +3,48 @@ import React from 'react';
 import { Post } from '../../components/Post/Post';
 import { AddComment } from '../../components/AddComment/AddComment';
 import { CommentsBlock } from '../../components/CommentsBlock/CommentsBlock';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export const FullPost = () => {
+
+   const params = useParams();
+   // console.log(params.id)
+
+   const [post, setPost] = React.useState();
+   const [isLoading, setIsLoading] = React.useState(true);
+
+   React.useEffect(() => {
+      async function fetchPost() {
+         try {
+            const res = await axios.get('http://localhost:4444/posts/' + params.id);
+            setPost(res.data);
+            setIsLoading(false); // если запрос выполнился успешно, то выключаем загрузку
+         } catch (error) {
+            console.log(error);
+            alert('Ошибка при получении статьи');
+         }
+      }
+      fetchPost();
+   }, []);
+
+   if (isLoading) {
+      return <Post isLoading={isLoading} />;
+   }
+
    return (
       <>
          <Post
-            id={1}
-            title="Заголовок поста | Заголовок поста"
-            imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
-            user={{
-               avatarUrl:
-                  'https://catherineasquithgallery.com/uploads/posts/2021-02/1613172335_89-p-zheltii-fon-gubka-bob-105.jpg',
-               fullName: 'Губка Боб',
-            }}
-            createdAt={'15 мая 2023 г.'}
-            viewsCount={100}
+            id={post._id}
+            title={post.title}
+            imageUrl={post.imageUrl}
+            user={post.user}
+            createdAt={post.createdAt}
+            viewsCount={post.viewsCount}
             commentsCount={3}
-            tags={['react', 'fun', 'typescript']}
-            isFullPost>
-            <p>
-               Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta enim suscipit consequatur
-               odio maiores itaque unde pariatur minus eum delectus amet perferendis repudiandae
-               architecto asperiores, sunt, et eligendi, blanditiis quo voluptas alias dolorum vero velit
-               quod optio. Eaque cum distinctio, nostrum ea aliquam aut corporis minima iure fugiat dolor
-               atque.
+            tags={post.tags}>            
+            <p>              
+               {post.text}
             </p>
          </Post>
          <CommentsBlock
