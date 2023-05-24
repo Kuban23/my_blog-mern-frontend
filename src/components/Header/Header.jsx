@@ -4,14 +4,21 @@ import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slices/auth";
 
 
 export const Header = () => {
 
+   const dispatch = useDispatch();
    const isAuth = useSelector((state) => Boolean(state.auth.data));
 
-  
+   const onClickLogout = () => {
+      if (window.confirm('Вы действительно хотите выйти')) {
+         dispatch(logout());
+      }
+   };
+
    return (
       <div className={styles.root}>
          <Container maxWidth="lg">
@@ -25,7 +32,7 @@ export const Header = () => {
                         <Link to="/posts/create">
                            <Button variant="contained">Написать статью</Button>
                         </Link>
-                        <Button variant="contained" color="error">
+                        <Button onClick={onClickLogout} variant="contained" color="error">
                            Выйти
                         </Button>
                      </>
