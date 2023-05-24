@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
+import { useSelector } from "react-redux";
 
 
 export const Header = () => {
 
-   const isAuth = false;
+   const isAuth = useSelector((state) => Boolean(state.auth.data));
 
+  
    return (
       <div className={styles.root}>
          <Container maxWidth="lg">
