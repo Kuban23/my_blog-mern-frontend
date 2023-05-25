@@ -1,3 +1,4 @@
+import React from "react";
 import Container from "@mui/material/Container";
 import { Routes, Route } from 'react-router-dom';
 
@@ -6,9 +7,20 @@ import { Login } from "./pages/Login/Login";
 import { Registration } from "./pages/Registration/Registration";
 import { AddPost } from "./pages/AddPost/AddPost";
 import { Home } from "./pages/Home/Home";
-import {FullPost} from "./pages/FullPost/FullPost";
+import { FullPost } from "./pages/FullPost/FullPost";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAuthMe } from "./redux/slices/auth";
+
 
 function App() {
+
+   const dispatch = useDispatch();
+   const isAuth = useSelector((state) => Boolean(state.auth.data));
+
+   React.useEffect(() => {
+      dispatch(fetchAuthMe());
+   }, []);
+
    return (
       <>
          <Header />
@@ -18,7 +30,7 @@ function App() {
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Registration />} />
                <Route path="/add-post" element={<AddPost />} />
-               <Route path="/posts/:id" element={<FullPost/>} />
+               <Route path="/posts/:id" element={<FullPost />} />
             </Routes>
 
 

@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../../axios';
 
 // асинхронный экшн для дальнего использования- будем делать запрос на БЭК получение постов
 export const fetchPosts = createAsyncThunk('/posts/fetchPosts', async () => {
-   const res = await axios.get('http://localhost:4444/posts');
+   const res = await axios.get('/posts');
    return res.data;
 });
 
 // асинхронный экшн для дальнего использования- будем делать запрос на БЭК получение тэгов
 export const fetchTags = createAsyncThunk('/posts/fetchTags', async () => {
-   const res = await axios.get('http://localhost:4444/tags');
+   const res = await axios.get('/tags');
    return res.data;
 });
 
