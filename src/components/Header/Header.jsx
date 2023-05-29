@@ -42,7 +42,10 @@ export const Header = () => {
                         <Link to='login'>
                            <Button variant="outlined">Войти</Button>
                         </Link>
-                        <Button variant="contained">Создать аккаунт</Button>
+                        <Link to='/register'>
+                        <Button  variant="contained">Создать аккаунт</Button>
+                        </Link>
+                        
                      </>
                   }
 

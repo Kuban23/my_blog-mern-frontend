@@ -69,7 +69,7 @@ export const Login = () => {
                fullWidth
                {...register('password', { required: 'Укажите Ваш пароль' })}
                helperText={errors.password?.message}
-               error={Boolean(errors.password?.message)} b
+               error={Boolean(errors.password?.message)} 
             />
             <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
                Войти
