@@ -12,6 +12,7 @@ export const Header = () => {
 
    const dispatch = useDispatch();
    const isAuth = useSelector((state) => Boolean(state.auth.data));
+   const userData = useSelector((state) => state.auth.data);
 
    const onClickLogout = () => {
       if (window.confirm('Вы действительно хотите выйти')) {
@@ -29,14 +30,17 @@ export const Header = () => {
                </Link>
                <div className={styles.buttons}>
                   {isAuth ?
-                     <>
-                        <Link to="/add-post">
-                           <Button variant="contained">Написать статью</Button>
-                        </Link>
-                        <Button onClick={onClickLogout} variant="contained" color="error">
-                           Выйти
-                        </Button>
-                     </>
+                     <div className={styles.wrapper}>
+                     <Link to="/add-post" style={{ textDecoration: 'none' }}>
+                       <Button variant="contained">Написать статью</Button>
+                     </Link>
+                     <Button onClick={onClickLogout} variant="contained" color="error">
+                       Выйти
+                     </Button>
+                     <img className={styles.avatar} src={userData.avatarUrl} alt="аватар" />
+     
+                     <p className={styles.name}>{userData.fullName}</p>
+                   </div>
                      :
                      <>
                         <Link to='login'>

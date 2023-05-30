@@ -25,8 +25,8 @@ export const Login = () => {
          isValid,
       } } = useForm({
          defaultValues: {
-            email: 'rt@rt.ru',
-            password: '1235545'
+            email: 'ira@ira.ru',
+            password: '123456789'
          },
          mode: 'onChange'
       });

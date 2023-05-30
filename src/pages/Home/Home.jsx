@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 import { Post } from '../../components/Post/Post';
 import { TagsBlock } from '../../components/TagsBlock/TagsBlock';
@@ -15,9 +16,10 @@ export const Home = () => {
 
    const dispatch = useDispatch();
    const { posts, tags } = useSelector((state) => state.posts);
-   // console.log(posts)
-   const userData= useSelector((state)=>state.auth.data);
-   
+   console.log(posts)
+   const isAuth = useSelector((state) => Boolean(state.auth.data));
+   const userData = useSelector((state) => state.auth.data);
+   //console.log(userData)
 
    React.useEffect(() => {
       dispatch(fetchPosts());
@@ -27,6 +29,10 @@ export const Home = () => {
    //Переменная для отслеживания статуса загрузки
    const isPostsLoading = posts.status === 'loading';
    const isPTagsLoading = tags.status === 'loading';
+
+   if (!isAuth) {
+      return <Navigate to="/login" />;
+   }
 
    return (
       <>
@@ -42,20 +48,21 @@ export const Home = () => {
             <Grid xs={8} item>
                {(isPostsLoading ? [...Array(3)] : posts.items).map((obj, index) =>
                   isPostsLoading ? (
-                     <Post isLoading={true} key={index} />
+                     <Post key={index} isLoading={true} />
                   ) : (
                      <Post
                         id={obj._id}
                         title={obj.title}
-                        imageUrl={obj.imageUrl}                        
+                        imageUrl={obj.imageUrl}
                         user={obj.user}
                         createdAt={obj.createdAt}
                         viewsCount={obj.viewsCount}
                         commentsCount={3}
                         tags={obj.tags}
-                        //isOwner={userData?._id === obj.user._id}
+                     //isOwner={userData?._id === obj.user._id}
                      />
-                  ))}
+                  ),
+               )}
             </Grid>
             <Grid xs={4} item>
                {/* <div>TagsBlock</div> */}

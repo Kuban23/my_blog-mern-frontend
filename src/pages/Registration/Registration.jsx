@@ -27,6 +27,8 @@ export const Registration = () => {
       } } = useForm({
          defaultValues: {
             fullName: 'Ира',
+            avatarUrl:
+               'https://catherineasquithgallery.com/uploads/posts/2021-02/1613172335_89-p-zheltii-fon-gubka-bob-105.jpg',            
             email: 'ira@ira.ru',
             password: '123456789'
          },
@@ -63,6 +65,14 @@ export const Registration = () => {
                {...register('fullName', { required: 'Укажите свое имя' })}
                error={Boolean(errors.fullName?.message)}
                helperText={errors.fullName?.message}
+            />
+            <TextField
+               className={styles.field}
+               label="Avatar"
+               fullWidth
+               {...register('avatarUrl', { required: 'Разместите ссылку на изображение' })}
+               error={Boolean(errors.avatarUrl?.message)}
+               helperText={errors.avatarUrl?.message}
             />
             <TextField
                className={styles.field}
