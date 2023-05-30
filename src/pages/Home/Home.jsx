@@ -16,6 +16,8 @@ export const Home = () => {
    const dispatch = useDispatch();
    const { posts, tags } = useSelector((state) => state.posts);
    // console.log(posts)
+   const userData= useSelector((state)=>state.auth.data);
+   
 
    React.useEffect(() => {
       dispatch(fetchPosts());
@@ -45,14 +47,13 @@ export const Home = () => {
                      <Post
                         id={obj._id}
                         title={obj.title}
-                        imageUrl={obj.imageUrl}
-                        // imageUrl="https://telegra.ph/file/0697e7569a0447ec3a9cd.png"
+                        imageUrl={obj.imageUrl}                        
                         user={obj.user}
                         createdAt={obj.createdAt}
                         viewsCount={obj.viewsCount}
                         commentsCount={3}
                         tags={obj.tags}
-                         isEditable
+                        //isOwner={userData?._id === obj.user._id}
                      />
                   ))}
             </Grid>

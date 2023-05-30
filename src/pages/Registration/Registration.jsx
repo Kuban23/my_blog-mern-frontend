@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Registration.module.scss";
 import { Navigate } from "react-router-dom";
-import { fetchRegiater } from "../../redux/slices/auth";
+import { fetchRegister } from "../../redux/slices/auth";
 
 
 export const Registration = () => {
@@ -34,7 +34,7 @@ export const Registration = () => {
       });
 
    const onSubmit = async (values) => {
-      const data = await dispatch(fetchRegiater(values));
+      const data = await dispatch(fetchRegister(values));
       if (!data.payload) {
          return alert('Не удалось зарегистрироваться')
       }

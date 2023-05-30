@@ -21,22 +21,26 @@ export const Post = ({
    tags,
    isLoading,
    children,
+   isOwner
 }) => {
    if (isLoading) {
       return <PostSkeleton />;
    }
    return (
       <div className={styles.root}>
-         <div className={styles.editButtons}>
-            <Link to={`/posts/${id}/edit`}>
-               <IconButton color="primary">
-                  <EditIcon />
+         {
+            isOwner &&
+            <div className={styles.editButtons}>
+               <Link to={`/posts/${id}/edit`}>
+                  <IconButton color="primary">
+                     <EditIcon />
+                  </IconButton>
+               </Link>
+               <IconButton color="secondary">
+                  <DeleteIcon />
                </IconButton>
-            </Link>
-            <IconButton color="secondary">
-               <DeleteIcon />
-            </IconButton>
-         </div>
+            </div>
+         }
 
          <img className={styles.image} src={imageUrl} alt={title} />
          <div className={styles.wrapper}>
