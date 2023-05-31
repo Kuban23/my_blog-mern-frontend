@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import styles from './Post.module.scss';
 import { UserInfo } from '../../components/UserInfo/UserInfo';
 import { PostSkeleton } from '../../components/Post/Skeleton';
+import { useDispatch } from 'react-redux';
+import { fetchRemovePost } from '../../redux/slices/posts';
 
 export const Post = ({
    id,
@@ -23,9 +25,20 @@ export const Post = ({
    children,
    isOwner
 }) => {
+
+const dispatch=useDispatch();
+
    if (isLoading) {
       return <PostSkeleton />;
    }
+
+// Функция удаления поста
+const removePost = () => {
+   if (window.confirm('Вы действительно хотите удалить статью?')) {
+     dispatch(fetchRemovePost(id));
+   }
+ };
+
    return (
       <div className={styles.root}>
          {
@@ -36,7 +49,7 @@ export const Post = ({
                      <EditIcon />
                   </IconButton>
                </Link>
-               <IconButton color="secondary">
+               <IconButton onClick={removePost} color="secondary">
                   <DeleteIcon />
                </IconButton>
             </div>
