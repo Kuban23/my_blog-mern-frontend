@@ -7,10 +7,14 @@ import SimpleMDE from 'react-simplemde-editor';
 //import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import axios from '../../axios';
+import { useNavigate } from 'react-router-dom';
 
 export const AddPost = () => {
+
+   const navigate = useNavigate();
+
    // Сотояние для поля редактора SimpleMDE
-   const [value, setValue] = React.useState('');
+   const [text, setText] = React.useState('');
 
    // Состояние заголовка
    const [title, setTitle] = React.useState('');
@@ -18,11 +22,14 @@ export const AddPost = () => {
    // Состояние тэгов
    const [tags, setTags] = React.useState('');
 
+   // Состояние загрузки поста
+   const [isLoading, setLoading] = React.useState(false);
+
    // Состояние загружаемой картинки
    const [imageUrl, setImageUrl] = React.useState('');
 
    const onChange = React.useCallback((value) => {
-      setValue(value);
+      setText(value);
    }, []);
 
    const options = React.useMemo(
@@ -64,6 +71,24 @@ export const AddPost = () => {
       setImageUrl('');
    };
 
+   const addPost = async () => {
+      try {
+         setLoading(true);
+         const filds = {
+            title,
+            tags,
+            text,
+            imageUrl
+         }
+         const { data } = await axios.post('/posts', filds);
+         const id = data._id
+         navigate(`/posts/${id}`)
+      } catch (error) {
+         console.log(error);
+         alert('Не удалось загрузить статью!')
+      }
+   };
+
    return (
       <Paper style={{ padding: 30 }}>
          <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
@@ -96,9 +121,9 @@ export const AddPost = () => {
             value={tags}
             onChange={(e) => setTags(e.target.value)}
          />
-         <SimpleMDE className={styles.editor} value={value} onChange={onChange} options={options} />
+         <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
          <div className={styles.buttons}>
-            <Button size="large" variant="contained">
+            <Button onClick={addPost} size="large" variant="contained">
                Опубликовать
             </Button>
             <Button size="large">Отмена</Button>
