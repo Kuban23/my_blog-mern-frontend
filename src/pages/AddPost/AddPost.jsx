@@ -3,11 +3,11 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
-//import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import axios from '../../axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const AddPost = () => {
 
@@ -71,6 +71,8 @@ export const AddPost = () => {
       setImageUrl('');
    };
 
+
+
    const addPost = async () => {
       try {
          setLoading(true);
@@ -80,14 +82,39 @@ export const AddPost = () => {
             text,
             imageUrl
          }
-         const { data } = await axios.post('/posts', filds);
-         const id = data._id
-         navigate(`/posts/${id}`)
+         const { data } = isEditing
+            ? await axios.patch(`/posts/${params.id}`, filds)
+            : await axios.post('/posts', filds)
+
+         const _id = isEditing ? params.id : data._id
+         navigate(`/posts/${_id}`)
       } catch (error) {
          console.log(error);
          alert('Не удалось загрузить статью!')
       }
    };
+
+   const params = useParams();
+
+   const isEditing = Boolean(params.id);
+
+   React.useEffect(() => {
+      if (params.id) {
+         axios.get(`/posts/${params.id}`)
+            .then((res) => {
+               setTitle(res.data.title);
+               setTags(res.data.tags);
+               setImageUrl(res.data.imageUrl);
+               setText(res.data.text);
+            })
+            .catch((error) => {
+               console.log(error);
+               alert('Ошибка при получении статьи');
+            });
+      }
+   }, []);
+
+
 
    return (
       <Paper style={{ padding: 30 }}>
@@ -124,7 +151,7 @@ export const AddPost = () => {
          <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
          <div className={styles.buttons}>
             <Button onClick={addPost} size="large" variant="contained">
-               Опубликовать
+               {isEditing ? 'Сохранить' : 'Опубликовать'}
             </Button>
             <Button size="large">Отмена</Button>
          </div>
