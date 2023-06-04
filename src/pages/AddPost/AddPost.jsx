@@ -4,10 +4,12 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
+import { Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './AddPost.module.scss';
 import axios from '../../axios';
-import { useNavigate, useParams } from 'react-router-dom';
+
 
 export const AddPost = () => {
 
@@ -153,7 +155,9 @@ export const AddPost = () => {
             <Button onClick={addPost} size="large" variant="contained">
                {isEditing ? 'Сохранить' : 'Опубликовать'}
             </Button>
-            <Button size="large">Отмена</Button>
+            <Link to='/'>
+          <Button size="large">Отмена</Button>
+        </Link>
          </div>
       </Paper>
    );

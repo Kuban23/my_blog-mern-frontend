@@ -3,6 +3,7 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 import styles from './AddComment.module.scss';
 
@@ -23,6 +24,9 @@ export const AddComment = () => {
                   fullWidth
                />
                <Button variant="contained">Отправить</Button>
+               <Link to='/'>
+                  <Button size="large">Отмена</Button>
+               </Link>
             </div>
          </div>
       </>
