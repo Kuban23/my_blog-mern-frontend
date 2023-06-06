@@ -10,7 +10,7 @@ import { Home } from "./pages/Home/Home";
 import { FullPost } from "./pages/FullPost/FullPost";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthMe } from "./redux/slices/auth";
-
+import InfoTooltip from './pages/InfoTooltip/InfoTooltip';
 
 function App() {
 
@@ -25,6 +25,7 @@ function App() {
       <>
          <Header />
          <Container maxWidth="lg">
+         <InfoTooltip/>
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="/login" element={<Login />} />
